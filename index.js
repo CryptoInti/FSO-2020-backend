@@ -1,8 +1,15 @@
 // const http = require('http')
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+
+morgan.token('data', (req) => {
+    return JSON.stringify(req.body)
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
 let persons = [
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -60,7 +67,6 @@ const generateId = (max) => {
 
 app.post('/api/persons', (req, res) => {
     const body = req.body
-    
     if(!body.name || !body.number){
         return res.status(400).json({
             error: "name or number missing"
@@ -86,6 +92,12 @@ app.post('/api/persons', (req, res) => {
 // const port = 3001
 // app.listen(port)
 // console.log('SErver Rurnrunr')
+
+const unknownEndpoint = (req, res) => {
+    res.status(404).send('<img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fstatic.tumblr.com%2Fixshp06%2FYP6m2221z%2Fdennis_nedry_magic_word_header.gif&f=1&nofb=1" alt="nanana"></img>')
+}
+
+app.use(unknownEndpoint)
 
 const PORT = 3001
 app.listen(PORT, () => {

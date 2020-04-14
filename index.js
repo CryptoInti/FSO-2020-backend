@@ -8,7 +8,8 @@ let persons = [
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
     { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
     { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+    { name: 'Mary Poppendieck asd', number: '39-23-6423122', id: 4 },
+    { name: 'Friedrich Nietzsche', number: '26-93-692693', id: 5 },
 ]
 // const app = http.createServer((req, res) => {
 //     res.writeHead(200, {'Content-Type': 'application/json'})
@@ -18,6 +19,10 @@ let persons = [
 app.get('/', (req,res) => {
     res.send('Hallo Phonebook Welt')
     console.log('ask for /')
+})
+
+app.get('/info', (req, res) => {
+    res.send(`Phonebook has info for ${persons.length} people <br></br>${new Date}`)
 })
 
 app.get('/api/persons', (req, res) => {

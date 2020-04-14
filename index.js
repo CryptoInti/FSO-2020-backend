@@ -61,21 +61,27 @@ const generateId = (max) => {
 app.post('/api/persons', (req, res) => {
     const body = req.body
     
-    if(!body.name){
+    if(!body.name || !body.number){
         return res.status(400).json({
-            error: "name missing"
+            error: "name or number missing"
         })
     }
 
-    const person = {
-        name: body.name,
-        number: body.number || '',
-        id: generateId(10)
+    if(persons.find(p => p.name === body.name)){
+        res.status(400).json({
+            error: 'name must be unique'
+        })
+    }else{
+        const person = {
+            name: body.name,
+            number: body.number,
+            id: generateId(10)
+        }
+    
+        console.log(person)
+        persons = persons.concat(person)
+        res.json(person)
     }
-
-    console.log(person)
-    persons = persons.concat(person)
-    res.json(person)
 })
 // const port = 3001
 // app.listen(port)

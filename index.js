@@ -46,6 +46,37 @@ app.delete('/api/persons/:id', (req, res) => {
     res.status(203).end()
 })
 
+const generateId = (max) => {
+    const newId = Math.floor(Math.random() * Math.floor(max))
+    const findIt = persons.find(p => p.id === newId)
+        console.log('max',max,'newId',newId,'findIt',typeof findIt)
+    if(typeof findIt !== 'object'){
+        return newId
+    }
+    else{
+        return generateId(max*2)
+    }
+}
+
+app.post('/api/persons', (req, res) => {
+    const body = req.body
+    
+    if(!body.name){
+        return res.status(400).json({
+            error: "name missing"
+        })
+    }
+
+    const person = {
+        name: body.name,
+        number: body.number || '',
+        id: generateId(10)
+    }
+
+    console.log(person)
+    persons = persons.concat(person)
+    res.json(person)
+})
 // const port = 3001
 // app.listen(port)
 // console.log('SErver Rurnrunr')

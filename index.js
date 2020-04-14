@@ -9,7 +9,7 @@ let persons = [
     { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
     { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
     { name: 'Mary Poppendieck asd', number: '39-23-6423122', id: 4 },
-    { name: 'Friedrich Nietzsche', number: '26-93-692693', id: 5 },
+    { name: 'Friedrich Nietzsche', number: '36-93-692693', id: 5 },
 ]
 // const app = http.createServer((req, res) => {
 //     res.writeHead(200, {'Content-Type': 'application/json'})
@@ -27,6 +27,17 @@ app.get('/info', (req, res) => {
 
 app.get('/api/persons', (req, res) => {
     res.json(persons)
+})
+
+app.get('/api/persons/:id', (req, res) => {
+    const id = Number(req.params.id)
+    const person = persons.find(p => p.id === id)
+    if(person){
+        res.json(person)
+    }else{
+        res.status(404).end()
+    }
+
 })
 
 // const port = 3001
